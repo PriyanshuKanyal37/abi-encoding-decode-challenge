@@ -22,4 +22,9 @@
           data
       );
       // Further code
+      require(msg.value == params.amountETHIn, 'Router: Incorrect ETH amount');
+      TransferHelper.safeTransferETH(params.recipient, msg.value);
+      amountOut = exactInputInternal(params);
+      require(amountOut >= params.amountOutMin, 'Router: Insufficient output amount');
+      emit Swap(msg.sender, params.recipient, params.tokenIn, params.tokenOut, params.amountIn, amountOut);
   }
